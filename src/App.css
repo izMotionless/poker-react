@@ -9,4 +9,14 @@
   padding: 2em;
 }
 
+.card > button {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  align-items: center;
+}
 
+.size-6 {
+  width: 27px;
+  height: 27px;
+}
