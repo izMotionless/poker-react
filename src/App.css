@@ -22,3 +22,17 @@
   width: 27px;
   height: 27px;
 }
+
+ol {
+  list-style: none;
+}
+
+.playerCardsItem {
+  display: flex;
+  align-items: center;
+  background-color: #1a1a1a;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 0.5rem;
+  justify-content: space-between;
+}
