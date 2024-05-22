@@ -1,5 +1,5 @@
 import "./App.css";
-
+import ArrowPath from "./components/ArrowPath";
 function App() {
   return (
     <>
@@ -7,6 +7,7 @@ function App() {
       <div className="card">
         <button onClick={() => console.log("You clicked me!")}>
           Mezclar Cartas
+          <ArrowPath />
         </button>
       </div>
     </>
