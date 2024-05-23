@@ -23,8 +23,9 @@
   height: 27px;
 }
 
-ol {
+ol,ul {
   list-style: none;
+  padding: 0;
 }
 
 .playerCardsItem {

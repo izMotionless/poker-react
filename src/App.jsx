@@ -19,6 +19,9 @@ function App() {
   const [players, setPlayers] = useState([]);
   const [disabledAgregarJugador, setDisabledAgregarJugador] = useState(false);
 
+  const [phase, setPhase] = useState("flop");
+  const [cartasComunitarias, setCartasComunitarias] = useState([]);
+
   const BASE_API_URL = "http://localhost:8080/v1/poker";
 
   const handleMezclarCartas = async () => {
@@ -29,14 +32,28 @@ function App() {
   };
 
   const handleAgregarJugador = async () => {
-    
     const response = await fetch(`${BASE_API_URL}/${jugada}/player`);
     const newPlayerCards = await response.json();
 
-    setPlayers((players) => {
-      const newPlayers = [...players, newPlayerCards];
+    setPlayers((prevPlayers) => {
+      const newPlayers = [...prevPlayers, newPlayerCards];
       if (newPlayers.length === 7) setDisabledAgregarJugador(true);
       return newPlayers;
+    });
+  };
+
+  const handleChangePhase = async () => {
+    const response = await fetch(`${BASE_API_URL}/${jugada}/${phase}`);
+    const newCartasComunitarias = await response.json();
+    setCartasComunitarias((prevCartasComunitarias) => [
+      ...prevCartasComunitarias,
+      ...newCartasComunitarias,
+    ]);
+
+    setPhase((prevPhase) => {
+      if (prevPhase === "flop") return "turn";
+      if (prevPhase === "turn") return "river";
+      if (prevPhase === "river") return "";
     });
   };
 
@@ -48,7 +65,7 @@ function App() {
           <span> Mezclar Cartas </span>
           <ArrowPath />
         </button>
-        {jugada ? <p>Jugada : {jugada}</p> : null}
+        {jugada ? <p>Jugada - {jugada}</p> : null}
       </div>
 
       {jugada ? (
@@ -88,6 +105,45 @@ function App() {
             );
           })}
         </ol>
+      ) : null}
+
+      {players.length >= 2 ? (
+        <div className="card">
+          <button disabled={phase != "flop"} onClick={handleChangePhase}>
+            Flop
+          </button>
+          <button disabled={phase != "turn"} onClick={handleChangePhase}>
+            Turn
+          </button>
+          <button disabled={phase != "river"} onClick={handleChangePhase}>
+            River
+          </button>
+        </div>
+      ) : null}
+
+      {cartasComunitarias.length > 1 ? (
+        <div>
+          <ul
+            style={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            {cartasComunitarias.map((card, index) => (
+              <li
+                key={index}
+                style={{
+                  backgroundColor: "#1a1a1a",
+                  padding: "0.6em 1.2em",
+                  borderRadius: "8px",
+                }}
+              >
+                {card.symbol} {card.characterCardTypeEnum.name}{" "}
+              </li>
+            ))}
+          </ul>
+        </div>
       ) : null}
     </main>
   );
