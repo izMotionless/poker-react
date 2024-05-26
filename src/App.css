@@ -37,3 +37,9 @@ ol,ul {
   margin: 0.5rem;
   justify-content: space-between;
 }
+
+.image img{
+  width:75%;
+  height: 75%;
+  border-radius: 7px;
+}
